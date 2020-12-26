@@ -10,19 +10,19 @@ import {
 } from './style';
 import Backdrop from '../../UI/backdrop/Backdrop';
 
-const sideDrawer = ({ open, closed }) => {
+const sideDrawer = ({ open, closed, isAuth }) => {
     return (
-        <React.Fragment>
+        <>
             <Backdrop show={open} clicked={closed}/>
             <SideDrawer style={ open ? Open : Close}>
                 <LogoContainer>
                     <Logo height="3rem"/>
                 </LogoContainer>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={isAuth}/>
                 </nav>
             </SideDrawer>
-        </React.Fragment>
+        </>
     );
 }
 

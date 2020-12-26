@@ -33,7 +33,7 @@ export const fetchIngredientsFailed = () => {
 export const initIngredients = () => {
     return dispatch => {
         axios.get('/ingredients.json').then(response => {
-            console.log('VUELTA')
+            // console.log('VUELTA')
             dispatch(setIngredients(response.data))
         })
         .catch(error => {

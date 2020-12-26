@@ -5,10 +5,15 @@ import {
     NavigationItems
 } from './style';
 
-const navigationItems = () => (
+const navigationItems = ({ isAuthenticated }) => (
     <NavigationItems>
         <NavigationItem link="/" exact>Burger Builder</NavigationItem>
-        <NavigationItem link="/orders">Orders</NavigationItem>
+        { isAuthenticated ? <NavigationItem link="/orders">Orders</NavigationItem> : null }
+        { !isAuthenticated 
+            ? <NavigationItem link="/auth">Authentication</NavigationItem>
+            : <NavigationItem link="/logout">Logout</NavigationItem>
+
+        }
     </NavigationItems>
 )
 

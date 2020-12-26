@@ -4,13 +4,31 @@ on:
     branches:
       - main
 jobs:
-  build_and_preview:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+      - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
+  
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Master
+        uses: actions/checkout@v2
+      
+      
+      
+      
+      
+      
+      with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEV_REACT_APP }}'
           projectId: dev-react-app
