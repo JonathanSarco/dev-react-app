@@ -6,12 +6,12 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/spinner/spinner';
 import withErrorHandler from '../withErrorHandler/withErrorHandler';
-
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 
     state = {
         purchasable: false,
@@ -81,7 +81,7 @@ class BurgerBuilder extends Component {
             );
 
             orderSummary = <OrderSummary
-                price={this.props.price.toFixed(2)}
+                price={this.props.price ? this.props.price.toFixed(2) : this.props.price}
                 purchaseCanceled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler}
                 ingredients={this.props.ings} />
@@ -124,4 +124,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) ( withErrorHandler(BurgerBuilder, axios) );
+export default withRouter(connect(mapStateToProps, mapDispatchToProps) ( withErrorHandler(BurgerBuilder, axios) ));

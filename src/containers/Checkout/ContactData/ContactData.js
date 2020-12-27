@@ -6,6 +6,7 @@ import Spinner from '../../../components/UI/spinner/spinner';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { checkValidity } from '../../../shared/utility';
 
 import { ContactDataStyle } from './style';
 
@@ -100,26 +101,6 @@ class ContactData extends Component {
         formIsValid: false,
     }
 
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
-
-    }
-
-
     onOrderHandler = (event) => {
         event.preventDefault();
 
@@ -153,7 +134,7 @@ class ContactData extends Component {
 
         updatedFormElement.touched = true;
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(event.target.value, updatedFormElement.validation)
+        updatedFormElement.valid = checkValidity(event.target.value, updatedFormElement.validation)
         updatedOrderForm[inputIdentifier] = updatedFormElement;
         
         let formIsValid = true;

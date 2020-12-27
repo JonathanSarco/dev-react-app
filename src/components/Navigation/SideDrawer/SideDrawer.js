@@ -14,7 +14,7 @@ const sideDrawer = ({ open, closed, isAuth }) => {
     return (
         <>
             <Backdrop show={open} clicked={closed}/>
-            <SideDrawer style={ open ? Open : Close}>
+            <SideDrawer style={ open ? Open : Close} onClick={closed}>
                 <LogoContainer>
                     <Logo height="3rem"/>
                 </LogoContainer>

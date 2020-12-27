@@ -1,27 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '../../UI/button/Button';
 
 function OrderSummary(props) {
 
-    useEffect( () => {
-        console.log('OrderSummary');
-    });
-
     const ingredientSummary = Object.keys(props.ingredients)
-                                .map( igKey => {
-                                    return (
-                                        <li key={igKey}>
-                                            <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {props.ingredients[igKey]}
-                                        </li>
-                                    )
-                                });
+        .map(igKey => {
+            return (
+                <li key={igKey}>
+                    <span style={{ textTransform: 'capitalize' }}>{igKey}</span>: {props.ingredients[igKey]}
+                </li>
+            )
+        });
 
     return (
         <React.Fragment>
             <h3>Your Order</h3>
             <p>A delicious burger with the following ingredients: </p>
             <ul>
-                { ingredientSummary }
+                {ingredientSummary}
             </ul>
             <p><strong>Total Price: {props.price}</strong></p>
             <p>Continue to Checkout?</p>
