@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Burger from '../../components/Burger/Burger';
 import BurgerControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/modal/Modal';
@@ -11,36 +11,39 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
 
-export class BurgerBuilder extends Component {
+const BurgerBuilder = (props, state) => {
+    const [purchasable, setPurchasable] = useState(false);
 
-    state = {
-        purchasable: false,
-    }
+    // state = {
+    //     purchasable: false,
+    // }
 
-    componentDidMount() {
-        this.props.onInitIngredients();
-    }
+    useEffect(() => {
+        props.onInitIngredients();
+    });
 
-    purchaseHandler = () => {
-        if (this.props.isAuthenticated) {
-            this.setState({ purchasing: true });
+    const purchaseHandler = () => {
+        if (props.isAuthenticated) {
+            setPurchasable(true)
+            // this.setState({ purchasing: true });
         } else {
-            this.props.onSetAuthRedirectPath('/checkout')
-            this.props.history.push('/auth')
+            props.onSetAuthRedirectPath('/checkout')
+            props.history.push('/auth')
         }
         
     }
 
-    purchaseCancelHandler = () => {
-        this.setState({ purchasing: false });
+    const purchaseCancelHandler = () => {
+        // this.setState({ purchasing: false });
+        setPurchasable(false);
     }
 
-    purchaseContinueHandler = () => {
-        this.props.onInitPurchase(); 
-        this.props.history.push('/checkout');
+    const purchaseContinueHandler = () => {
+        props.onInitPurchase(); 
+        props.history.push('/checkout');
     }
 
-    updatePurchasableState(ingredients) {
+    const updatePurchasableState = (ingredients) => {
         const sum = Object.keys(ingredients)
             .map(el => ingredients[el])
             .reduce((sum, el) => {
@@ -49,58 +52,56 @@ export class BurgerBuilder extends Component {
         return sum > 0;
     }
 
-
-    render() {
-        // To enabled or disabled the button
-        const disabledInfo = {
-            ...this.props.ings
-        };
-
-        for (let key in disabledInfo) {
-            // Check if it's false or not and assign that value
-            disabledInfo[key] = disabledInfo[key] <= 0;
-        }
-
-        let orderSummary = null
-        let burger = this.props.error ? <p>Ingredients error</p> : <Spinner />;
-
-        if (this.props.ings) {
-            burger = (
-                <React.Fragment>
-                    <Burger ingredients={this.props.ings} />
-                    <BurgerControls
-                        ingredientAdded={this.props.onIngredientAdded}
-                        ingredientRemoved={this.props.onIngredientRemoved}
-                        disabled={disabledInfo}
-                        price={this.props.price}
-                        purchasable={this.updatePurchasableState(this.props.ings)}
-                        ordered={this.purchaseHandler}
-                        isAuth={this.props.isAuthenticated}
-                    />
-                </React.Fragment>
-            );
-
-            orderSummary = <OrderSummary
-                price={this.props.price ? this.props.price.toFixed(2) : this.props.price}
-                purchaseCanceled={this.purchaseCancelHandler}
-                purchaseContinued={this.purchaseContinueHandler}
-                ingredients={this.props.ings} />
-        }
-
-        if (this.state.loading) {
-            orderSummary = <Spinner />
-        }
-
-
-        return (
-            <React.Fragment>
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    {orderSummary}
-                </Modal>
-                { burger}
-            </React.Fragment>
-        )
+    // To enabled or disabled the button
+    const disabledInfo = {
+        ...props.ings
     };
+
+    for (let key in disabledInfo) {
+        // Check if it's false or not and assign that value
+        disabledInfo[key] = disabledInfo[key] <= 0;
+    }
+
+    let orderSummary = null
+    let burger = props.error ? <p>Ingredients error</p> : <Spinner />;
+
+    if (props.ings) {
+        burger = (
+            <>
+                <Burger ingredients={props.ings} />
+                <BurgerControls
+                    ingredientAdded={props.onIngredientAdded}
+                    ingredientRemoved={props.onIngredientRemoved}
+                    disabled={disabledInfo}
+                    price={props.price}
+                    purchasable={updatePurchasableState(props.ings)}
+                    ordered={purchaseHandler}
+                    isAuth={props.isAuthenticated}
+                />
+            </>
+        );
+
+        orderSummary = 
+            <OrderSummary
+                price={props.price ? props.price.toFixed(2) : props.price}
+                purchaseCanceled={purchaseCancelHandler}
+                purchaseContinued={purchaseContinueHandler}
+                ingredients={props.ings} />
+    }
+
+    if (state.loading) {
+        orderSummary = <Spinner />
+    }
+
+
+    return (
+        <React.Fragment>
+            <Modal show={state.purchasing} modalClosed={purchaseCancelHandler}>
+                {orderSummary}
+            </Modal>
+            { burger}
+        </React.Fragment>
+    )
 }
 
 // Redux
