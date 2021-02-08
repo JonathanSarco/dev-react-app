@@ -1,36 +1,25 @@
-name: Deploy to Firebase Hosting
-on: 
-  push:
-    branches:
-      - main
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: npm install
-      - name: Build
-      - run: npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+# name: Deploy to Firebase Hosting
+# on: 
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Install Dependencies
+#         run: npm install
+#       - name: Build
+#       - run: npm run build
+#       - uses: FirebaseExtended/action-hosting-deploy@v0
   
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Master
-        uses: actions/checkout@v2
-      
-      
-      
-      
-      
-      
-      with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEV_REACT_APP }}'
-          projectId: dev-react-app
-        env:
-          FIREBASE_CLI_PREVIEWS: hostingchannels
+#   deploy:
+#     name: Deploy
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Master
+#         uses: actions/checkout@v2
+    
