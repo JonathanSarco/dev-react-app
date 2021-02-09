@@ -11,16 +11,13 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
 
-const BurgerBuilder = (props, state) => {
+const BurgerBuilder = (props) => {
     const [purchasable, setPurchasable] = useState(false);
 
-    // state = {
-    //     purchasable: false,
-    // }
 
     useEffect(() => {
         props.onInitIngredients();
-    });
+    }, []);
 
     const purchaseHandler = () => {
         if (props.isAuthenticated) {
@@ -89,14 +86,14 @@ const BurgerBuilder = (props, state) => {
                 ingredients={props.ings} />
     }
 
-    if (state.loading) {
-        orderSummary = <Spinner />
-    }
+    // if (this.state.loading) {
+    //     orderSummary = <Spinner />
+    // }
 
 
     return (
         <React.Fragment>
-            <Modal show={state.purchasing} modalClosed={purchaseCancelHandler}>
+            <Modal show={purchasable} modalClosed={purchaseCancelHandler}>
                 {orderSummary}
             </Modal>
             { burger}
