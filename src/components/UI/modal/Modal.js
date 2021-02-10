@@ -16,4 +16,5 @@ const modal = ({ show, modalClosed, children }) => (
     </React.Fragment>
 );
 
-export default modal;
+// With React Memo wrapper, we can check if the props are equal or not to continue with the execution
+export default React.memo(modal, (prevProps, nextProps) => nextProps.show === prevProps.show && nextProps.children === prevProps.children);
