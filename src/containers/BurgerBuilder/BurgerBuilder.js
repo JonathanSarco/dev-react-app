@@ -13,11 +13,11 @@ import * as actions from '../../store/actions/index';
 
 const BurgerBuilder = (props) => {
     const [purchasable, setPurchasable] = useState(false);
-
+    const { onInitIngredients } = props;
 
     useEffect(() => {
-        props.onInitIngredients();
-    }, []);
+        onInitIngredients();
+    }, [onInitIngredients]);
 
     const purchaseHandler = () => {
         if (props.isAuthenticated) {
